@@ -33,7 +33,7 @@ def copyKeygen(x):
 		print("Set Up SSH Key...\n")
 		os.system('tput setaf 7')
 
-		os.system('ssh-keygen -b 2048 -t rsa -f /tmp/sshkey -q -N ""')
+		os.system('ssh-keygen -f id_rsa -t rsa -N ""')
 		subprocess.getstatusoutput("ssh-copy-id {}".format(x))
 
 def getssh():
