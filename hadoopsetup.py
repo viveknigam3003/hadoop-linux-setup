@@ -12,3 +12,11 @@ print("""
 	""")
 
 authenticate.checkIP()
+print("\nDo You wish to Continue [y/n]?")
+ch = input()
+
+if ch == 'y':
+	authenticate.getssh()
+else:
+	exit()
+
