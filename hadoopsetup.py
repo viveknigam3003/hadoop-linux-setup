@@ -20,3 +20,30 @@ if ch == 'y':
 else:
 	exit()
 
+os.system('tput setaf 2')
+print("Authentication is complete!")
+os.system('tput setaf 7')
+
+print("Enter IP of the machine to set up: ", end=' ')
+thisip = input()
+
+print("""
+		This Machine will be used as?
+		1. NameNode (Master Node)
+		2. DataNode (SlaveNode)
+		3. Client
+	 """)
+
+print("\n[M-Master/D-Slave/C-Client]? ", end=' ')
+machine = input()
+
+if machine == 'M':
+	print("A")
+elif machine == 'D':
+	print("A")
+elif machine == 'C':
+	print("A")
+else:
+	os.system('tput setaf 1')
+	print("Invalid Choice! Retry")
+	os.system('tput setaf 7')
