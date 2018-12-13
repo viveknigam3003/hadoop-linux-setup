@@ -1,6 +1,8 @@
 import subprocess
 import os
 
+connectedIP = []
+
 def checkIP():
 	print("Enter IP of all Machines Separated with commas(,): ", end=' ')
 	IPs = input()
@@ -14,6 +16,7 @@ def checkIP():
 		if x[0]==0 :
 			os.system('tput setaf 2')
 			print("{} Connected".format(i))
+			connectedIP.append(i)
 			os.system('tput setaf 7')
 		else:
 			os.system('tput setaf 1')
@@ -36,6 +39,10 @@ def copyKeygen(x):
 		os.system('ssh-keygen -f id_rsa -t rsa -N ""')
 		subprocess.getstatusoutput("ssh-copy-id {}".format(x))
 
+		os.system('tput setaf 2')
+		print("Connected to {}".format(x))
+		os.system('tput setaf 7')
+
 def getssh():
-
-
+	for i in connectedIP:
+		copyKeygen(i)
