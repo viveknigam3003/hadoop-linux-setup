@@ -57,7 +57,13 @@ if machine == 'M':
 	os.system('tput setaf 7')
 
 elif machine == 'D':
-	print("A")
+	slave.hdfs()
+	slave.makeDataDir()
+	slave.core()
+	slave.sethostname()
+	os.system('tput setaf 2')
+	print("Data Node Initialized Successfully!")
+	os.system('tput setaf 7')	
 
 elif machine == 'C':
 	print("A")
