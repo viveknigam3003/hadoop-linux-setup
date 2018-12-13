@@ -30,7 +30,7 @@ def copyKeygen(x):
 	else:
 		os.system('tput setaf 1')
 		print("No SSH Key Found!")
-		print("Set Up SSH Key...\n")
+		print("Generating SSH Key...\n")
 		os.system('tput setaf 7')
 
 		os.system('ssh-keygen -f id_rsa -t rsa -N ""')
