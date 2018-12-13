@@ -57,7 +57,7 @@ if machine == 'M':
 	os.system('tput setaf 7')
 
 elif machine == 'D':
-	
+	print("A")
 
 elif machine == 'C':
 	print("A")
