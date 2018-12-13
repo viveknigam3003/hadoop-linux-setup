@@ -17,6 +17,9 @@ def sethostname():
     print("Hostname Set as : {}".format(os.system('hostname')))
     os.system('hostname')    
 
+def makeNameDir():
+    os.system('mkdir /name')
+
 def formatMaster():
     x = subprocess.getstatusoutput("hadoop namenode -format")
     if x[0] == 0:
@@ -29,6 +32,7 @@ def formatMaster():
         os.system('tput setaf 7') 
 
 def start():
+    os.system("iptables -F")
     x = subprocess.getstatusoutput("hadoop-daemon.sh start namenode")
     if x[0] == 0:
         os.system('tput setaf 2')

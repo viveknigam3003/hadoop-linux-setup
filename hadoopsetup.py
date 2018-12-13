@@ -1,6 +1,8 @@
 import os
 import subprocess
 import authenticate
+import master
+import slave
 
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
@@ -45,11 +47,21 @@ print("\n[M-Master/D-Slave/C-Client]? ", end=' ')
 machine = input()
 
 if machine == 'M':
-	print("A")
+	master.hdfs()
+	master.makeNameDir()
+	master.core()
+	master.formatMaster()
+	master.sethostname()
+	os.system('tput setaf 2')
+	print("Master Node Initialized Successfully!")
+	os.system('tput setaf 7')
+
 elif machine == 'D':
-	print("A")
+	
+
 elif machine == 'C':
 	print("A")
+
 else:
 	os.system('tput setaf 1')
 	print("Invalid Choice! Retry")
