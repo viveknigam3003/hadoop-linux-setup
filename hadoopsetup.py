@@ -1,22 +1,68 @@
 import os
 import subprocess
 import authenticate
+import master
+import slave
 
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
 
+print("Enter IP of the machine to set up: ", end=' ')
+thisip = input()
+localip = subprocess.getoutput("ifconfig enp0s3 | grep -w inet | awk '{ print $2}'")
+if thisip != localip:
+	print("The current machine IP is: {}".format(localip))
+	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
+	rem = input()
+	if rem == "n":
+		print("\nContinuing with current machine...")
+	if rem == "y":
+		print("Setting up {} remotely.".format(thisip))
+		print("""
+				\nFirst we need to set Authentication
+				Authentication Setup Started...
+			""")
+
+		authenticate.checkIP()
+		print("\nDo You wish to Continue [y/n]?")
+		ch = input()
+
+		if ch == 'y':
+			authenticate.getssh()
+		else:
+			exit()
+
+		os.system('tput setaf 2')
+		print("Authentication is complete!")
+		os.system('tput setaf 7')
+
 print("""
-	First we need to set Authentication
+		This Machine will be used as?
+		1. NameNode (Master Node)
+		2. DataNode (SlaveNode)
+		3. Client
+	 """)
 
-	Authentication Setup Started...
-	""")
+print("\n[M-Master/D-Slave/C-Client]? ", end=' ')
+machine = input()
 
-authenticate.checkIP()
-print("\nDo You wish to Continue [y/n]?")
-ch = input()
+if machine == 'M':
+	master.hdfs()
+	master.makeNameDir()
+	master.core()
+	master.formatMaster()
+	master.sethostname()
+	os.system('tput setaf 2')
+	print("Master Node Initialized Successfully!")
+	os.system('tput setaf 7')
 
-if ch == 'y':
-	authenticate.getssh()
+elif machine == 'D':
+	print("A")
+
+elif machine == 'C':
+	print("A")
+
 else:
-	exit()
-
+	os.system('tput setaf 1')
+	print("Invalid Choice! Retry")
+	os.system('tput setaf 7')
