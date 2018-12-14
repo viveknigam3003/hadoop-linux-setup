@@ -1,9 +1,6 @@
 import os
 import subprocess
 
-ip=''
-def initialize (init):
-    ip = init
 
 def hdfs():
     return 0
@@ -11,16 +8,16 @@ def hdfs():
 def core():
     return 0
 
-def sethostname():
+def sethostname(ip):
     print ("Enter Desired Hostname (ex. X.slave.com): ", end=' ')
     x = input()
     os.system('ssh {} hostnameclt set-hostname {}'.format(ip, x))
     print("Hostname Set as : {}".format(os.system('ssh {} hostname'.format(ip))))    
 
-def makeNameDir():
+def makeNameDir(ip):
     os.system('ssh {} mkdir /data'.format(ip))
 
-def start():
+def start(ip):
     os.system("ssh {} iptables -F".format(ip))
     x = subprocess.getstatusoutput("ssh {} hadoop-daemon.sh start datanode".format(ip))
     if x[0] == 0:
@@ -34,7 +31,7 @@ def start():
         os.system('ssh {} tput setaf 7'.format(ip)) 
         os.system('ssh {} jps'.format(ip))
 
-def stop():
+def stop(ip):
     x = subprocess.getstatusoutput("ssh {} hadoop-daemon.sh stop datanode".format(ip))
     if x[0] == 0:
         os.system('ssh {} tput setaf 2'.format(ip))
@@ -45,7 +42,7 @@ def stop():
         os.system('ssh {} tput setaf 1'.format(ip))
         print("ALERT: Data Node Failed to Stop!")
         os.system('ssh {} tput setaf 7'.format(ip)) 
-        os.system('ssh {} jps'format(ip))
+        os.system("ssh {} jps".format(ip))
 
-def report():
+def report(ip):
     os.system("ssh {} hadoop dfsadmin -report".format(ip))

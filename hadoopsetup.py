@@ -3,6 +3,8 @@ import subprocess
 import authenticate
 import master
 import slave
+import remotemaster
+import remoteslave
 
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
@@ -10,6 +12,7 @@ print("\t\t\t----------------------------")
 print("Enter IP of the machine to set up: ", end=' ')
 thisip = input()
 localip = subprocess.getoutput("ifconfig enp0s3 | grep -w inet | awk '{ print $2}'")
+
 if thisip != localip:
 	print("\nThe current machine IP is: {}".format(localip))
 	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
@@ -17,9 +20,11 @@ if thisip != localip:
 	if rem == "n":
 		print("\nContinue with current machine? [y/n]: ", end =' ')
 		cont = input()
+
 		if cont == 'n':
 			exit()
 
+	#ACCEPTED FOR REMOTE SETUP
 	else:
 		print("Setting up {} remotely.".format(thisip))
 		print("""
@@ -40,43 +45,91 @@ if thisip != localip:
 		print("Authentication is complete!")
 		os.system('tput setaf 7')
 
-print("""
+		print("""
+				REMOTE MACHINE SETUP
+				--------------------
+				This Machine will be used as?
+				1. NameNode (Master Node)
+				2. DataNode (SlaveNode)
+				3. Client
+				4. Abort Setup
+			""")
+
+		print("\nEnter Choice: ? ", end=' ')
+		machine = input()
+
+		if machine == '1':
+			remotemaster.hdfs()
+			remotemaster.makeNameDir(thisip)
+			remotemaster.core()
+			remotemaster.formatMaster(thisip)
+			remotemaster.sethostname(thisip)
+			os.system('tput setaf 2')
+			print("Master Node Initialized Successfully!")
+			os.system('tput setaf 7')
+
+		elif machine == '2':
+			remoteslave.hdfs()
+			remoteslave.makeNameDir(thisip)
+			remoteslave.core()
+			remoteslave.sethostname(thisip)
+			os.system('tput setaf 2')
+			print("Data Node Initialized Successfully!")
+			os.system('tput setaf 7')	
+
+		elif machine == '3':
+			print("A")
+
+		elif machine == '4':
+			exit()
+
+		else:
+			os.system('tput setaf 1')
+			print("Invalid Choice! Retry")
+			os.system('tput setaf 7')
+
+#PROCEEDING WITH LOCAL SETUP
+else:
+	print("""
+
+		LOCAL MACHINE SETUP
+		-----------
 		This Machine will be used as?
 		1. NameNode (Master Node)
 		2. DataNode (SlaveNode)
 		3. Client
 		4. Abort Setup
-	 """)
+	""")
 
-print("\nEnter Choice: ? ", end=' ')
-machine = input()
+	print("\nEnter Choice: ? ", end=' ')
+	machine = input()
 
-if machine == '1':
-	master.hdfs()
-	master.makeNameDir()
-	master.core()
-	master.formatMaster()
-	master.sethostname()
-	os.system('tput setaf 2')
-	print("Master Node Initialized Successfully!")
-	os.system('tput setaf 7')
+	if machine == '1':
+		master.hdfs()
+		master.makeNameDir()
+		master.core()
+		master.formatMaster()
+		master.sethostname()
+		os.system('tput setaf 2')
+		print("Master Node Initialized Successfully!")
+		os.system('tput setaf 7')
 
-elif machine == '2':
-	slave.hdfs()
-	slave.makeDataDir()
-	slave.core()
-	slave.sethostname()
-	os.system('tput setaf 2')
-	print("Data Node Initialized Successfully!")
-	os.system('tput setaf 7')	
+	elif machine == '2':
+		slave.hdfs()
+		slave.makeDataDir()
+		slave.core()
+		slave.sethostname()
+		os.system('tput setaf 2')
+		print("Data Node Initialized Successfully!")
+		os.system('tput setaf 7')	
 
-elif machine == '3':
-	print("A")
+	elif machine == '3':
+		print("A")
 
-elif machine == '4':
-	exit()
+	elif machine == '4':
+		exit()
 
-else:
-	os.system('tput setaf 1')
-	print("Invalid Choice! Retry")
-	os.system('tput setaf 7')
+	else:
+		os.system('tput setaf 1')
+		print("Invalid Choice! Retry")
+		os.system('tput setaf 7')
