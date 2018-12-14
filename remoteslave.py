@@ -1,7 +1,6 @@
 import os
 import subprocess
 
-
 def hdfs():
     return 0
 
