@@ -2,7 +2,8 @@ import os
 import subprocess
 
 def hdfs():
-    hdfsFile = open("/etc")
+    hdfsFile = open("/etc/hadoop/hdfs-site.xml", "a")
+    hdfsFile.seek()
 
 def core():
     return 0
