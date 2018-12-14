@@ -25,7 +25,7 @@ if thisip != localip:
 		print("""
 				\nFirst we need to set Authentication
 				Authentication Setup Started...
-			""")
+			 """)
 
 		authenticate.checkIP()
 		print("\nDo You wish to Continue [y/n]?")
@@ -61,7 +61,13 @@ if machine == 'M':
 	os.system('tput setaf 7')
 
 elif machine == 'D':
-	print("A")
+	slave.hdfs()
+	slave.makeDataDir()
+	slave.core()
+	slave.sethostname()
+	os.system('tput setaf 2')
+	print("Data Node Initialized Successfully!")
+	os.system('tput setaf 7')	
 
 elif machine == 'C':
 	print("A")
