@@ -11,7 +11,7 @@ print("Enter IP of the machine to set up: ", end=' ')
 thisip = input()
 localip = subprocess.getoutput("ifconfig enp0s3 | grep -w inet | awk '{ print $2}'")
 if thisip != localip:
-	print("The current machine IP is: {}".format(localip))
+	print("\nThe current machine IP is: {}".format(localip))
 	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
 	rem = input()
 	if rem == "n":
@@ -24,7 +24,7 @@ if thisip != localip:
 		print("Setting up {} remotely.".format(thisip))
 		print("""
 				\nFirst we need to set Authentication
-				Authentication Setup Started...
+				Authentication Process Started...
 			 """)
 
 		authenticate.checkIP()
@@ -45,12 +45,13 @@ print("""
 		1. NameNode (Master Node)
 		2. DataNode (SlaveNode)
 		3. Client
+		4. Abort Setup
 	 """)
 
-print("\n[M-Master/D-Slave/C-Client]? ", end=' ')
+print("\nEnter Choice: ? ", end=' ')
 machine = input()
 
-if machine == 'M':
+if machine == '1':
 	master.hdfs()
 	master.makeNameDir()
 	master.core()
@@ -60,7 +61,7 @@ if machine == 'M':
 	print("Master Node Initialized Successfully!")
 	os.system('tput setaf 7')
 
-elif machine == 'D':
+elif machine == '2':
 	slave.hdfs()
 	slave.makeDataDir()
 	slave.core()
@@ -69,8 +70,11 @@ elif machine == 'D':
 	print("Data Node Initialized Successfully!")
 	os.system('tput setaf 7')	
 
-elif machine == 'C':
+elif machine == '3':
 	print("A")
+
+elif machine == '4':
+	exit()
 
 else:
 	os.system('tput setaf 1')
