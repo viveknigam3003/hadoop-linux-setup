@@ -27,13 +27,18 @@ if thisip != localip:
 		connect = authenticate.checkIP(thisip)
 
 		if connect == True:
-			authenticate.getssh(thisip)
+			auth = authenticate.getssh(thisip)
 		else:
 			exit()
 
-		os.system('tput setaf 2')
-		print("Authentication is complete!")
-		os.system('tput setaf 7')
+		if auth == True:
+			os.system('tput setaf 2')
+			print("Authentication is complete!")
+			os.system('tput setaf 7')
+		else:
+			os.system('tput setaf 1')
+			print("Authentication Failed!")
+			os.system('tput setaf 7')
 
 		print("""
 				REMOTE MACHINE SETUP
