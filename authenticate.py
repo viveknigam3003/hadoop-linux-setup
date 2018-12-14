@@ -1,27 +1,20 @@
-import subprocess
 import os
+import subprocess
 
-connectedIP = []
-
-def checkIP():
-	print("Enter IP of all Machines Separated with commas(,): ", end=' ')
-	IPs = input()
-	IPList = IPs.split(',')
+def checkIP(x):
 
 	print("\nSTATUS:")
 	print("--------")
 
-	for i in IPList:
-		x = subprocess.getstatusoutput("ping -c 2 {}".format(i))
-		if x[0]==0 :
-			os.system('tput setaf 2')
-			print("{} Connected".format(i))
-			connectedIP.append(i)
-			os.system('tput setaf 7')
-		else:
-			os.system('tput setaf 1')
-			print("{} Not Connected".format(i))
-			os.system('tput setaf 7')
+	x = subprocess.getstatusoutput("ping -c 2 {}".format(x))
+	if x[0]==0 :
+		os.system('tput setaf 2')
+		print("{} Connected".format(x))
+		os.system('tput setaf 7')
+	else:
+		os.system('tput setaf 1')
+		print("{} Not Connected".format(x))
+		os.system('tput setaf 7')
 
 def copyKeygen(x):
 	print("Connecting via SSH to {}".format(x))
@@ -43,6 +36,5 @@ def copyKeygen(x):
 		print("Connected to {}".format(x))
 		os.system('tput setaf 7')
 
-def getssh():
-	for i in connectedIP:
-		copyKeygen(i)
+def getssh(x):
+	copyKeygen(x)

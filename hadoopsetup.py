@@ -1,8 +1,8 @@
 import os
 import subprocess
 import authenticate
-import master
-import slave
+import localmaster
+import localslave
 import remotemaster
 import remoteslave
 
@@ -28,16 +28,16 @@ if thisip != localip:
 	else:
 		print("Setting up {} remotely.".format(thisip))
 		print("""
-				\nFirst we need to set Authentication
-				Authentication Process Started...
+			\nFirst we need to authenticate the IP
+			Authentication Process Started...
 			 """)
 
-		authenticate.checkIP()
+		authenticate.checkIP(thisip)
 		print("\nDo You wish to Continue [y/n]?")
 		ch = input()
 
 		if ch == 'y':
-			authenticate.getssh()
+			authenticate.getssh(thisip)
 		else:
 			exit()
 
@@ -105,20 +105,20 @@ else:
 	machine = input()
 
 	if machine == '1':
-		master.hdfs()
-		master.makeNameDir()
-		master.core()
-		master.formatMaster()
-		master.sethostname()
+		localmaster.hdfs()
+		localmaster.makeNameDir()
+		localmaster.core()
+		localmaster.formatMaster()
+		localmaster.sethostname()
 		os.system('tput setaf 2')
 		print("Master Node Initialized Successfully!")
 		os.system('tput setaf 7')
 
 	elif machine == '2':
-		slave.hdfs()
-		slave.makeDataDir()
-		slave.core()
-		slave.sethostname()
+		localslave.hdfs()
+		localslave.makeDataDir()
+		localslave.core()
+		localslave.sethostname()
 		os.system('tput setaf 2')
 		print("Data Node Initialized Successfully!")
 		os.system('tput setaf 7')	

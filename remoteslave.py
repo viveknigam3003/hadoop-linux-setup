@@ -2,7 +2,7 @@ import os
 import subprocess
 
 def hdfs():
-    return 0
+    hdfsFile = open("/etc")
 
 def core():
     return 0
