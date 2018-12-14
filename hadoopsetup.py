@@ -15,8 +15,12 @@ if thisip != localip:
 	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
 	rem = input()
 	if rem == "n":
-		print("\nContinuing with current machine...")
-	if rem == "y":
+		print("\nContinue with current machine? [y/n]: ", end =' ')
+		cont = input()
+		if cont == 'n':
+			exit()
+
+	else:
 		print("Setting up {} remotely.".format(thisip))
 		print("""
 				\nFirst we need to set Authentication
