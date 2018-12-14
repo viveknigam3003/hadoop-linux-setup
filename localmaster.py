@@ -8,13 +8,10 @@ def core():
     return 0
 
 def sethostname():
-    print ("""
-    Setting Up Hostname as (X.master.com)
-    Enter Machine name (X):
-    """)
+    print ("Enter Desired Hostname (ex. X.master.com):", end=' ')
     x = input()
-    os.system('hostnameclt set-hostname {}.master.com'.format(x))
-    print("Hostname Set as : {}".format(os.system('hostname')))
+    os.system('hostnameclt set-hostname {}'.format(x))
+    print("Hostname Set as : {}".format(os.system('hostname')), end=' ')
     os.system('hostname')    
 
 def makeNameDir():

@@ -8,12 +8,9 @@ def core():
     return 0
 
 def sethostname():
-    print ("""
-    Setting Up Hostname as (X.slave.com)
-    Enter Machine name (X):
-    """)
+    print ("Enter Desired Hostname (ex. X.slave.com): ", end=' ')
     x = input()
-    os.system('hostnameclt set-hostname {}.slave.com'.format(x))
+    os.system('hostnameclt set-hostname {}'.format(x))
     print("Hostname Set as : {}".format(os.system('hostname')))
     os.system('hostname')    
 
