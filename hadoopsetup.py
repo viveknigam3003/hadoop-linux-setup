@@ -17,26 +17,16 @@ if thisip != localip:
 	print("\nThe current machine IP is: {}".format(localip))
 	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
 	rem = input()
-	if rem == "n":
-		print("\nContinue with current machine? [y/n]: ", end =' ')
-		cont = input()
-
-		if cont == 'n':
-			exit()
 
 	#ACCEPTED FOR REMOTE SETUP
-	else:
+	if rem == "y":
 		print("Setting up {} remotely.".format(thisip))
-		print("""
-			\nFirst we need to authenticate the IP
-			Authentication Process Started...
-			 """)
+		print("First we need to authenticate the IP")
+		print("Authentication Process Started")
 
-		authenticate.checkIP(thisip)
-		print("\nDo You wish to Continue [y/n]?")
-		ch = input()
+		connect = authenticate.checkIP(thisip)
 
-		if ch == 'y':
+		if connect == True:
 			authenticate.getssh(thisip)
 		else:
 			exit()
@@ -87,6 +77,9 @@ if thisip != localip:
 			os.system('tput setaf 1')
 			print("Invalid Choice! Retry")
 			os.system('tput setaf 7')
+
+	else:
+		exit()
 
 #PROCEEDING WITH LOCAL SETUP
 else:
