@@ -154,7 +154,7 @@ if option == '1':
 			os.system('tput setaf 7')
 elif option == '2':
 	print("""1. Local
-			 2. Remote""")
+	2. Remote""")
 	lr = input()
 	if lr == '1':
 		localmaster.start()
@@ -165,7 +165,7 @@ elif option == '2':
 
 elif option == '3':
 	print("""1. Local
-			 2. Remote""")
+	2. Remote""")
 	lr = input()
 	if lr == '1':
 		localslave.start()
