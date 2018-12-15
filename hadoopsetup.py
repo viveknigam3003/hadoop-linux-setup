@@ -23,6 +23,8 @@ if thisip != localip:
 
 		if cont == 'n':
 			exit()
+		else:
+			pass
 
 	#ACCEPTED FOR REMOTE SETUP
 	else:
