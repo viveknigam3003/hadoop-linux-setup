@@ -182,6 +182,9 @@ elif option == '4':
 elif option == '5':
 	os.system('hadoop fs -ls /')
 
+elif option == '6':
+	exit()
+
 else:
 	os.system('tput setaf 1')
 	print("Invalid Choice! Retry")

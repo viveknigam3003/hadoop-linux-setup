@@ -4,8 +4,8 @@ import subprocess
 def sethostname(ip):
     print ("Enter Desired Hostname (ex. X.master.com): ", end=' ')
     x = input()
-    os.system('ssh {} hostnameclt set-hostname {}'.format(ip, x))
-    print("Hostname Set as : {}".format(os.system('ssh {} hostname'.format(ip))))    
+    os.system('ssh {} hostnamectl set-hostname {}'.format(ip, x))
+    print("Hostname Set as : ", end=' ')    
 
 def makeNameDir(ip):
     os.system('ssh {} mkdir /name'.format(ip))
