@@ -1,11 +1,31 @@
 import os
 import subprocess
+import xml.etree.ElementTree as ET
 
 def hdfs():
-    return 0
+    hdfsfile = ET.parse('/etc/hadoop/hdfs-site.xml')
+    root = hdfsfile.getroot()
+    a = ET.SubElement(root, "property")
+    b = ET.SubElement(a, "name")
+    b.text = "dfs.name.dir"
+    c = ET.SubElement(a, "value")
+    c.text = "/name"
+    tree = ET.ElementTree(root)
+    tree.write('/etc/hadoop/hdfs-site.xml')
 
 def core():
-    return 0
+    print("Enter Master Hostname: ", end=' ')
+    host = input()
+
+    corefile = ET.parse('/etc/hadoop/core-site.xml')
+    root = corefile.getroot()
+    a = ET.SubElement(root, "property")
+    b = ET.SubElement(a, "name")
+    b.text = "fs.default.name"
+    c = ET.SubElement(a, "value")
+    c.text = "hdfs://{}:9001".format(host)
+    tree = ET.ElementTree(root)
+    tree.write('/etc/hadoop/core-site.xml')
 
 def sethostname():
     print ("Enter Desired Hostname (ex. X.master.com):", end=' ')
