@@ -4,8 +4,9 @@ import subprocess
 def sethostname(ip):
     print ("Enter Desired Hostname (ex. X.slave.com): ", end=' ')
     x = input()
-    os.system('ssh {} hostnameclt set-hostname {}'.format(ip, x))
-    print("Hostname Set as : {}".format(os.system('ssh {} hostname'.format(ip))))    
+    os.system('ssh {} hostnamectl set-hostname {}'.format(ip, x))
+    print("Hostname Set as : ", end=' ')
+    os.system('ssh {} hostname'.format(ip))    
 
 def makeDataDir(ip):
     os.system('ssh {} mkdir /data'.format(ip))
