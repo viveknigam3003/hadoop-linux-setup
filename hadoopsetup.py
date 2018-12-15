@@ -6,6 +6,8 @@ import localslave
 import remotemaster
 import remoteslave
 
+os.system('chmod +x /root/Desktop/hadoop-linux-setup/setparams.py')
+
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
 
@@ -54,9 +56,8 @@ if thisip != localip:
 		machine = input()
 
 		if machine == '1':
-			remotemaster.hdfs()
+			os.system('ssh {} setparams.py'.format(thisip))
 			remotemaster.makeNameDir(thisip)
-			remotemaster.core()
 			remotemaster.formatMaster(thisip)
 			remotemaster.sethostname(thisip)
 			os.system('tput setaf 2')
@@ -64,9 +65,8 @@ if thisip != localip:
 			os.system('tput setaf 7')
 
 		elif machine == '2':
-			remoteslave.hdfs()
+			os.system('ssh {} setparams.py'.format(thisip))
 			remoteslave.makeNameDir(thisip)
-			remoteslave.core()
 			remoteslave.sethostname(thisip)
 			os.system('tput setaf 2')
 			print("Data Node Initialized Successfully!")
