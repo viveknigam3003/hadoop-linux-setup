@@ -6,79 +6,140 @@ import localslave
 import remotemaster
 import remoteslave
 
+os.system('chmod +x /root/Desktop/hadoop-linux-setup/sethdfsmaster.py')
+os.system('chmod +x /root/Desktop/hadoop-linux-setup/sethdfsslave.py')
+os.system('chmod +x /root/Desktop/hadoop-linux-setup/setcoreparam.py')
+
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
 
-print("Enter IP of the machine to set up: ", end=' ')
-thisip = input()
-localip = subprocess.getoutput("ifconfig enp0s3 | grep -w inet | awk '{ print $2}'")
+print("""
+1. Setup HADOOP HDFS Cluster
+2. Start NameNode (Master)
+3. Start Data Node
+4. Upload Files (for Client Machines)
+5. List of all files (for Client Machines)
+6. EXIT
+""")
 
-if thisip != localip:
-	print("\nThe current machine IP is: {}".format(localip))
-	print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
-	rem = input()
-	if rem == "n":
-		print("\nContinue with current machine? [y/n]: ", end =' ')
-		cont = input()
+print("Enter Choice: ", end=' ')
+option = input()
 
-		if cont == 'n':
-			exit()
+if option == '1':
+	print("Enter IP of the machine to set up: ", end=' ')
+	thisip = input()
+	localip = subprocess.getoutput("ifconfig enp0s3 | grep -w inet | awk '{ print $2}'")
 
-	#ACCEPTED FOR REMOTE SETUP
-	else:
-		print("Setting up {} remotely.".format(thisip))
-		print("""
-			\nFirst we need to authenticate the IP
-			Authentication Process Started...
-			 """)
+	if thisip != localip:
+		print("\nThe current machine IP is: {}".format(localip))
+		print("Do you wish to setup Hadoop remotely on {} ? [y/n]: ".format(thisip), end=' ')
+		rem = input()
 
-		authenticate.checkIP(thisip)
-		print("\nDo You wish to Continue [y/n]?")
-		ch = input()
+		#ACCEPTED FOR REMOTE SETUP
+		if rem == "y":
+			print("Setting up {} remotely.".format(thisip))
+			print("First we need to authenticate the IP")
+			print("Authentication Process Started")
 
-		if ch == 'y':
-			authenticate.getssh(thisip)
+			connect = authenticate.checkIP(thisip)
+
+			if connect == True:
+				auth = authenticate.getssh(thisip)
+			else:
+				exit()
+
+			if auth == True:
+				os.system('tput setaf 2')
+				print("Authentication is complete!")
+				os.system('tput setaf 7')
+			else:
+				os.system('tput setaf 1')
+				print("Authentication Failed!")
+				os.system('tput setaf 7')
+
+			print("""
+					REMOTE MACHINE SETUP
+					--------------------
+					This Machine will be used as?
+					1. NameNode (Master Node)
+					2. DataNode (SlaveNode)
+					3. Client
+					4. Abort Setup
+				""")
+
+			print("\nEnter Choice: ? ", end=' ')
+			machine = input()
+
+			if machine == '1':
+				os.system('ssh {} sethdfsmaster.py'.format(thisip))
+				remotemaster.makeNameDir(thisip)
+				os.system('ssh {} setcoreparam.py'.format(thisip))
+				remotemaster.formatMaster(thisip)
+				remotemaster.sethostname(thisip)
+				os.system('tput setaf 2')
+				print("Master Node Initialized Successfully!")
+				os.system('tput setaf 7')
+
+			elif machine == '2':
+				os.system('ssh {} sethdfsslave.py'.format(thisip))
+				remoteslave.makeDataDir(thisip)
+				os.system('ssh {} setcoreparam.py'.format(thisip))
+				remoteslave.sethostname(thisip)
+				os.system('tput setaf 2')
+				print("Data Node Initialized Successfully!")
+				os.system('tput setaf 7')	
+
+			elif machine == '3':
+				print("A")
+
+			elif machine == '4':
+				exit()
+
+			else:
+				os.system('tput setaf 1')
+				print("Invalid Choice! Retry")
+				os.system('tput setaf 7')
+
 		else:
 			exit()
 
-		os.system('tput setaf 2')
-		print("Authentication is complete!")
-		os.system('tput setaf 7')
-
+	#PROCEEDING WITH LOCAL SETUP
+	else:
 		print("""
-				REMOTE MACHINE SETUP
-				--------------------
-				This Machine will be used as?
-				1. NameNode (Master Node)
-				2. DataNode (SlaveNode)
-				3. Client
-				4. Abort Setup
-			""")
+
+			LOCAL MACHINE SETUP
+			-----------
+			This Machine will be used as?
+			1. NameNode (Master Node)
+			2. DataNode (SlaveNode)
+			3. Client
+			4. Abort Setup
+		""")
 
 		print("\nEnter Choice: ? ", end=' ')
 		machine = input()
 
 		if machine == '1':
-			remotemaster.hdfs()
-			remotemaster.makeNameDir(thisip)
-			remotemaster.core()
-			remotemaster.formatMaster(thisip)
-			remotemaster.sethostname(thisip)
+			os.system('sethdfsmaster.py')
+			localmaster.makeNameDir()
+			os.system('setcoreparam.py')
+			localmaster.formatMaster()
+			localmaster.sethostname()
 			os.system('tput setaf 2')
 			print("Master Node Initialized Successfully!")
 			os.system('tput setaf 7')
 
 		elif machine == '2':
-			remoteslave.hdfs()
-			remoteslave.makeNameDir(thisip)
-			remoteslave.core()
-			remoteslave.sethostname(thisip)
+			os.system('sethdfsslave.py')
+			localslave.makeDataDir()
+			os.system('setcoreparam.py')
+			localslave.sethostname()
 			os.system('tput setaf 2')
 			print("Data Node Initialized Successfully!")
 			os.system('tput setaf 7')	
 
 		elif machine == '3':
-			print("A")
+			os.system('setcoreparam.py')
 
 		elif machine == '4':
 			exit()
@@ -87,49 +148,32 @@ if thisip != localip:
 			os.system('tput setaf 1')
 			print("Invalid Choice! Retry")
 			os.system('tput setaf 7')
-
-#PROCEEDING WITH LOCAL SETUP
-else:
-	print("""
-
-		LOCAL MACHINE SETUP
-		-----------
-		This Machine will be used as?
-		1. NameNode (Master Node)
-		2. DataNode (SlaveNode)
-		3. Client
-		4. Abort Setup
-	""")
-
-	print("\nEnter Choice: ? ", end=' ')
-	machine = input()
-
-	if machine == '1':
-		localmaster.hdfs()
-		localmaster.makeNameDir()
-		localmaster.core()
-		localmaster.formatMaster()
-		localmaster.sethostname()
-		os.system('tput setaf 2')
-		print("Master Node Initialized Successfully!")
-		os.system('tput setaf 7')
-
-	elif machine == '2':
-		localslave.hdfs()
-		localslave.makeDataDir()
-		localslave.core()
-		localslave.sethostname()
-		os.system('tput setaf 2')
-		print("Data Node Initialized Successfully!")
-		os.system('tput setaf 7')	
-
-	elif machine == '3':
-		print("A")
-
-	elif machine == '4':
-		exit()
-
+elif option == '2':
+	print("""1. Local
+			 2. Remote""")
+	lr = input()
+	if lr == '1':
+		localmaster.start()
 	else:
-		os.system('tput setaf 1')
-		print("Invalid Choice! Retry")
-		os.system('tput setaf 7')
+		print("Enter Remote Master IP: ", end =' ')
+		ip_mas = input() 
+		remotemaster.start(ip_mas)
+
+elif option == '3':
+	print("""1. Local
+			 2. Remote""")
+	lr = input()
+	if lr == '1':
+		localslave.start()
+	else:
+		print("Enter Remote DataNode IP: ", end =' ')
+		ip_mas = input() 
+		remoteslave.start(ip_mas)
+
+elif option == '4':
+	print("Enter File Path: ", end=' ')
+	path = input()
+	os.system('hadoop fs -put {} /'.format(path))
+
+elif option == '5':
+	os.system('hadoop fs -ls /')

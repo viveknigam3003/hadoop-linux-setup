@@ -1,21 +1,13 @@
 import os
 import subprocess
 
-
-def hdfs():
-    hdfsFile = open("/etc/hadoop/hdfs-site.xml", "a")
-    hdfsFile.seek()
-
-def core():
-    return 0
-
 def sethostname(ip):
     print ("Enter Desired Hostname (ex. X.slave.com): ", end=' ')
     x = input()
     os.system('ssh {} hostnameclt set-hostname {}'.format(ip, x))
     print("Hostname Set as : {}".format(os.system('ssh {} hostname'.format(ip))))    
 
-def makeNameDir(ip):
+def makeDataDir(ip):
     os.system('ssh {} mkdir /data'.format(ip))
 
 def start(ip):

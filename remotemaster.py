@@ -1,12 +1,6 @@
 import os
 import subprocess
 
-def hdfs():
-    return 0
-
-def core():
-    return 0
-
 def sethostname(ip):
     print ("Enter Desired Hostname (ex. X.master.com): ", end=' ')
     x = input()
