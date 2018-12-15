@@ -106,8 +106,6 @@ if option == '1':
 
 		else:
 			exit()
-		else:
-			pass
 
 	#PROCEEDING WITH LOCAL SETUP
 	else:
@@ -183,3 +181,8 @@ elif option == '4':
 
 elif option == '5':
 	os.system('hadoop fs -ls /')
+
+else:
+	os.system('tput setaf 1')
+	print("Invalid Choice! Retry")
+	os.system('tput setaf 7')
