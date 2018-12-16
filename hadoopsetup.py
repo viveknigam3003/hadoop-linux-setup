@@ -94,7 +94,7 @@ if option == '1':
 				os.system('tput setaf 7')	
 
 			elif machine == '3':
-				print("A")
+				os.system('setcoreparam.py')
 
 			elif machine == '4':
 				exit()

@@ -18,12 +18,16 @@ def start():
         os.system('tput setaf 2')
         print("Data Node Started")
         os.system('tput setaf 7') 
-        os.system('jps')
+        o1 = subprocess.getstatusoutput("jps | grep Datanode")
+        if o1[0] == '0':
+            print("Jps Running Successfully")
+        else:
+            subprocess.getstatusoutput("hadoop-daemon.sh start datanode")
+
     else:
         os.system('tput setaf 1')
         print("ALERT: Data Node Failed to Start!")
         os.system('tput setaf 7') 
-        os.system('jps')
 
 def stop():
     x = subprocess.getstatusoutput("hadoop-daemon.sh stop datanode")
@@ -31,12 +35,15 @@ def stop():
         os.system('tput setaf 2')
         print("Data Node Stopped")
         os.system('tput setaf 7') 
-        os.system('jps')
+        o1 = subprocess.getstatusoutput("jps | grep Datanode")
+        if o1[0] == '0':
+            print("Jps Running Successfully")
+        else:
+            subprocess.getstatusoutput("hadoop-daemon.sh start datanode")
     else:
         os.system('tput setaf 1')
         print("ALERT: Data Node Failed to Stop!")
         os.system('tput setaf 7') 
-        os.system('jps')
 
 def report():
     os.system("hadoop dfsadmin -report")
