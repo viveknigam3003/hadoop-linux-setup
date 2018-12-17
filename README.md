@@ -12,3 +12,8 @@ It uses python scripts to set up a `NameNode`, format it and start it. It config
 * Run the `hadoopsetup.py` from terminal or command line on a Python3 installed Linux System.
 * Make sure that Oracle© JAVA is installed and `JAVA_HOME` and `PATH` is set.
 * Hadoop v1 should be installed on the system which needs to be set up.
+
+## Changelog
+**17.12.18** <br>
+* MapReduce Automation Menu Added.
+* `MapReduce.py` and `mapredxml.py` files added.
