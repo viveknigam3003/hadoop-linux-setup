@@ -3,7 +3,6 @@ import subprocess
 
 os.system('cd /root/Desktop/hadoop-linux-setup/')
 os.system('chmod +x mapredxml.py')
-os.system('cp mapredxml.py /usr/bin')
 
 print("\t\t\tWelcome to Hadoop Setup Tool")
 print("\t\t\t----------------------------")
