@@ -23,7 +23,6 @@ def start(ip):
         os.system('ssh {} tput setaf 1'.format(ip))
         print("ALERT: Data Node Failed to Start!")
         os.system('ssh {} tput setaf 7'.format(ip)) 
-        os.system('ssh {} jps'.format(ip))
 
 def stop(ip):
     x = subprocess.getstatusoutput("ssh {} hadoop-daemon.sh stop datanode".format(ip))
@@ -36,7 +35,6 @@ def stop(ip):
         os.system('ssh {} tput setaf 1'.format(ip))
         print("ALERT: Data Node Failed to Stop!")
         os.system('ssh {} tput setaf 7'.format(ip)) 
-        os.system("ssh {} jps".format(ip))
 
 def report(ip):
     os.system("ssh {} hadoop dfsadmin -report".format(ip))

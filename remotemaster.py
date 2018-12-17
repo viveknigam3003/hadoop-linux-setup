@@ -33,7 +33,6 @@ def start(ip):
         os.system('ssh {} tput setaf 1'.format(ip))
         print("ALERT: Master Node Failed to Start!")
         os.system('ssh {} tput setaf 7'.format(ip)) 
-        os.system('ssh {} jps'.format(ip))
 
 def stop(ip):
     x = subprocess.getstatusoutput("ssh {} hadoop-daemon.sh stop namenode".format(ip))
@@ -46,7 +45,6 @@ def stop(ip):
         os.system('ssh {} tput setaf 1'.format(ip))
         print("ALERT: Master Node Failed to Stop!")
         os.system('ssh {} tput setaf 7'.format(ip)) 
-        os.system("ssh {} jps".format(ip))
 
 def report(ip):
     os.system("hadoop dfsadmin -report")
