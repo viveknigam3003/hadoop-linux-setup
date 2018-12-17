@@ -6,6 +6,7 @@ import localslave
 import remotemaster
 import remoteslave
 
+#SETTING PARAMETER MODULES AS EXECUTABLES
 os.system('cd /root/Desktop/hadoop-linux-setup/')
 os.system('chmod +x sethdfsmaster.py')
 os.system('chmod +x sethdfsslave.py')
